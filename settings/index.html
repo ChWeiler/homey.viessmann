@@ -1,0 +1,111 @@
+<head>
+    <!-- ... -->
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+  </head>
+  <body>
+
+    <h1 data-i18n="settings.title">
+        <!--
+        This field will automatically be filled by a translated string with key 'settings.title'.
+        Read more about translations at Internationalization.
+        -->
+    </h1>
+    <p data-i18n="settings.subtitle">
+        <!--
+        This field will also be translated
+        -->
+    </p>
+
+    <fieldset>
+        <legend>Govee API Settings</legend>
+
+        <div class="field row">
+          <label for="apikey">Viessmannapi Client ID</label>
+          <input id="apikey" type="text" value="" />
+        </div>
+        <div class="field row">
+          <label for="apiuser">Viessmannapi Username</label>
+          <input id="apiuser" type="text" value="" />
+        </div>
+        <div class="field row">
+          <label for="apipass">Viessmannapi Password</label>
+          <input id="apipass" type="text" value="" />
+        </div>
+        <div class="field row">
+          <label for="pollintervaldev">Update device status in minutes</label>
+          <input id="pollintervaldev" type="text" value="1" />
+        </div>
+        <div class="field row">
+          <label for="pollintervalgw">Update gateway events in minutes</label>
+          <input id="pollintervalgw" type="text" value="360" />
+        </div>
+        <button id="save" class="right">Save settings</button>
+    </fieldset>
+
+
+    <script type="text/javascript">
+
+    // a method named 'onHomeyReady' must be present in your code
+    function onHomeyReady( Homey ){
+
+        // Tell Homey we're ready to be displayed
+        Homey.ready();
+
+        var keyElement = document.getElementById('apikey');
+        var userElement = document.getElementById('apiuser');
+        var passElement = document.getElementById('apipass');
+        var intervaldevElement = document.getElementById('pollintervaldev');
+        var intervalgwElement = document.getElementById('pollintervalgw');
+        var saveElement = document.getElementById('save');
+
+        saveElement.addEventListener('click', function(e) {
+          Homey.set('api_key', keyElement.value, function( err ){
+            if( err ) return Homey.alert( err );
+          });
+          Homey.set('api_user', keyElement.value, function( err ){
+            if( err ) return Homey.alert( err );
+          });
+          Homey.set('api_pass', keyElement.value, function( err ){
+            if( err ) return Homey.alert( err );
+          });
+          Homey.set('poll_interval_dev', intervalElement.value, function( err ){
+            if( err ) return Homey.alert( err );
+          });
+          Homey.set('poll_interval_gw', intervalElement.value, function( err ){
+            if( err ) return Homey.alert( err );
+          });
+        });
+
+        Homey.get('api_key', function( err, key ) {
+           if( err ) return Homey.alert( err );
+           keyElement.value = key;
+        });
+
+        Homey.get('api_user', function( err, user ) {
+           if( err ) return Homey.alert( err );
+           userElement.value = user;
+        });
+
+        Homey.get('api_pass', function( err, pass ) {
+           if( err ) return Homey.alert( err );
+           passElement.value = pass;
+        });
+
+        Homey.get('poll_intervaldev', function( err, pollintervaldev ) {
+           if( err ) return Homey.alert( err );
+           if(pollintervaldev < 0)
+            pollintervaldev = 1;
+           intervaldwvElement.value = pollintervaldev;
+        });
+
+        Homey.get('poll_interval', function( err, pollintervalgw ) {
+           if( err ) return Homey.alert( err );
+           if(pollintervalgw < 360)
+           pollintervalgw = 360;
+           intervalgwElement.value = pollintervalgw;
+        });
+
+    }
+    </script>
+
+</body>
